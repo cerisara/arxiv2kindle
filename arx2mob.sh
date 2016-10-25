@@ -13,7 +13,7 @@ do
     echo $ma
 
     echo '---' > /tmp/aa.tit
-    grep 'arxiv2md:title=' /tmp/aa.log | cut -c16- | awk '{print "title: "$0}' >> /tmp/aa.tit
+    grep 'arxiv2md:title=' /tmp/aa.log | cut -c30- | awk '{print "title: "$0}' >> /tmp/aa.tit
     echo '...' >> /tmp/aa.tit
 
     # convert to markdown
