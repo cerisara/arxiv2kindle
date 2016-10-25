@@ -1,0 +1,90 @@
+#!/usr/bin/perl
+use Getopt::Std;
+use Switch 'Perl6'; use Sys::Hostname; use Time::HiRes qw(usleep);#usleep($microseconds)
+use File::Basename; use File::Copy; use File::Find; use Cwd;use File::Path;
+# --------------------- OPTIONS       --------------------------------
+$cdir = cwd;chomp($cdir);
+$prog = basename($0);
+getopt('Tt', \%opts); #here we add only options with args
+foreach $opt (keys %opts){
+ given($opt){
+  when 'h' {usage();last;}
+  default  {usage("Not a valid option: $opt");}
+ }
+}
+# -------------------------------------------------------------------
+if($#ARGV < 0){usage();}
+$arxiv_url  = "http://arxiv.org/e-print/"; # url where source of papers is
+$arxiv_abs  = "http://arxiv.org/abs/";     # url where abstract is
+$arxiv_no   = $ARGV[0];
+
+$arxiv_url .= $arxiv_no;
+$meta_url   = "${arxiv_abs}/${arxiv_no}";# html file with meta information (title/authors)
+# in case the paper number is in the arxiv/000000 format, then redefine $arxiv_no:
+$arxiv_ar   = "$arxiv_no";
+if( $arxiv_no =~ /(.*?)\/(.*?)$/){ $arxiv_ar = $1; $arxiv_no = $2;}
+print "${prog}:arxiv_ar = $arxiv_ar ; arxiv_no = $arxiv_no\n";
+$mobi       = "${arxiv_no}.mobi"; # final output file!
+#--------------------------------------------------------------------
+$tmpdir = "/tmp/tmp-${prog}";
+if( -d $tmpdir){
+ print "${prog}>rm -rf $tmpdir\n";
+ system("rm -rf $tmpdir");
+}
+mkdir $tmpdir;
+chdir $tmpdir;
+print "${prog}>wget  --user-agent=Mozilla/1.2 $arxiv_url\n";
+system("wget  --user-agent=Mozilla/1.2 $arxiv_url");
+print "${prog}>tar xvf $arxiv_no\n";
+system("tar xvf $arxiv_no");
+$meta_source = "${arxiv_no}.html"; # html file with meta information (title/authors)
+print "${prog}>wget  --user-agent=Mozilla/1.2 -O $meta_source $meta_url\n";
+system("wget  --user-agent=Mozilla/1.2 -O $meta_source $meta_url");
+$latex_source = "";
+foreach $f (<*.tex>){
+ $results  = `grep '\documentclass' $f`;
+ $results .= `grep '\documentstyle' $f`;
+ if($results){$latex_source = $f;break;}
+}
+if( $latex_source){
+ print "${prog}:Found LaTeX source: $latex_source\n";
+} else{
+ die "${prog}:LaTeX source not found!";
+}
+# Determine title and authors:
+$title = "[${arxiv_no}] "; $authors = "";
+open(META,$meta_source);
+while(<META>){
+ if(/citation_title/ ){/content=\"(.*?)\"/; $title   .= $1;}
+ if(/citation_author/){/content=\"(.*?)\"/; $authors .= "$1&";}
+}
+chop $authors; #remove trailing &
+print "${prog}:title= $title\n${prog}:authors= $authors\n";
+
+print "--------------------------------------------------------\n";
+print "${prog}:Temporary files can be found in $tmpdir\n";
+print "${prog}:Title:   $title\n";
+print "${prog}:Authors: $authors\n";
+print "${prog}:arXiv:   $ARGV[0]\n";
+# ----------------------- HELP MESSAGE ------------------------------
+sub usage(){
+ if(@_){$message  = shift(@_)."\n";}
+ $message .= << "EOF";
+Usage:   ${prog} <arxiv number>
+    e.g. ${prog} 1010.0957
+         ${prog} hep-lat/0402031
+
+Downloads source files from arXiv (if they exist), converts them to html and then to the mobi format (Kindle friendly)
+Uses htlatex and ebook-convert  (assumes TeX4ht and Calibre exist on your system)
+On Ubuntu: sudo apt-get  install texlive-full calibre
+K. N. Anagnostopoulos, NTUA 2013
+EOF
+ print STDERR $message;
+ exit(1);
+}
+sub main::HELP_MESSAGE(){ usage();} #for --help (does not work when default?)
+# -------------------------------------------------------------------
+
+
+
+
