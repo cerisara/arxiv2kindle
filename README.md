@@ -43,7 +43,7 @@ And because it's very simple, it's straightforward to tune it and improve it
 by yourself.
 
 May be one day researchers will at least write papers directly in (enhanced)
-Markdown, which will be much better for online, tablet, smartphone, kindle reading. But until then, this script is the only solution I've found so far to
+Markdown, which will be much better for online, tablet, smartphone, kindle reading. But until then, this script is my preferred option to
 carry with me a bunch or papers that I have had not the time to read yet when traveling. If you are aware of other options, please let me know !
 
 Other scripts you may be interested in:
