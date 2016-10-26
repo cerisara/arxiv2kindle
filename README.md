@@ -1,5 +1,5 @@
 Assuming that you have a number of references of arXiv papers disseminated in
-text files within a known directort, this little script will:
+text files within a known directory, this little script will:
 
 - retrieve the arXiv paper ID from within your text files
 - download their latex source (when available)
@@ -10,13 +10,13 @@ If you want to know how you can get the original text file with arXiv
 references, I recommend you to have a look at my [tasklab](https://github.com/cerisara/tasklab) Android app, which gives you a one-click option to add such
 references into a cloud-synchronized text file when browsing the web or Twitter.
 
-This arxiv2kindle script does not compile the latex files, because such
-purely automatic may often fail, because of requirements of specific libraries
+This arxiv2kindle script does not compile the latex files: such
+purely automated compilation may often fail, because of requirements of specific libraries
 for instance. Also, there are several papers which latex source only loads
 a unique big PDF and keep their code in a *comment* section, I guess when
 latex compilation is too complex.
 
-The alternative I have considered, extracting the text from the PDF, is
+I have tried another option: extracting the text from the PDF, but it is
 really crappy to read on Kindle because of broken line and paragraph segmentation, or worst equations and tables that are spread over several nearly blank
 pages.
 
