@@ -48,6 +48,6 @@ carry with me a bunch or papers that I have had not the time to read yet when tr
 
 Other scripts you may be interested in:
 
-- [](https://gist.github.com/bshillingford/6259986edca707ca58dd)
-- [](http://knanagnostopoulos.blogspot.fr/2013/03/from-arxiv-directly-to-my-kindle_15.html) : part of my script is taken from this blog.
+- [arxiv2kindle](https://gist.github.com/bshillingford/6259986edca707ca58dd)
+- [arxiv2mobi](http://knanagnostopoulos.blogspot.fr/2013/03/from-arxiv-directly-to-my-kindle_15.html) : part of my script is taken from this blog.
 
