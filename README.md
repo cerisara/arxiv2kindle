@@ -1,3 +1,12 @@
+
+# NEW: convert from conference-like PDF to Kindle
+
+Assumes 2 columns, removes title, crop each column into smaller blocks that are rendered as PDF/image onto the Kindle.
+
+See pdf2kindle.sh
+
+# Convert from arXiv latex to Kindle
+
 Assuming that you have a number of references of arXiv papers disseminated in
 text files within a known directory, this little script will:
 
